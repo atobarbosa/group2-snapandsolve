@@ -145,9 +145,9 @@ Concept: This is a linear equation. The goal is to isolate the variable x.
 
 ## Contributors
 
-* **[Your Name]** - Lead Developer
-* **[Member 2]** - Architecture & Documentation
-* **[Member 3]** - Testing & QA
+* **AJ Timothy O. Barbosa** 
+* **Juan Miguel C. Ocampo** 
+* **John David M. Villota** 
 
 ---
 
