@@ -9,13 +9,12 @@
 
 ---
 
----
 
 ## Contributors
 
-* **AJ Timothy O. Barbosa** 
-* **Juan Miguel C. Ocampo** 
-* **John David M. Villota** 
+* **AJ Timothy O. Barbosa = atobarbosa** 
+* **Juan Miguel C. Ocampo = JuanMiguelOcampo** 
+* **John David M. Villota = jdvillota** 
 
 ---
 
