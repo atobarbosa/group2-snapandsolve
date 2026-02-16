@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # Load API Key from .env file
 load_dotenv()
-API_KEY = "api key here"
+API_KEY = "AIzaSyBXyoyWNO0Et0bAS_keONohD_VYcLRbf0Q"
 
 def test_ocr():
     print("\n--- 1. Testing EasyOCR (Local) ---")
