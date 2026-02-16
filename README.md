@@ -9,6 +9,16 @@
 
 ---
 
+---
+
+## Contributors
+
+* **AJ Timothy O. Barbosa** 
+* **Juan Miguel C. Ocampo** 
+* **John David M. Villota** 
+
+---
+
 ## Key Features
 
 * **Local Guardrails:** Uses a quantized **PyTorch ResNet18** model locally to verify if an image is "Academic Material" (Document/Paper) before sending it to the cloud.
@@ -141,13 +151,6 @@ Concept: This is a linear equation. The goal is to isolate the variable x.
 
 ```
 
----
-
-## Contributors
-
-* **AJ Timothy O. Barbosa** 
-* **Juan Miguel C. Ocampo** 
-* **John David M. Villota** 
 
 ---
 
