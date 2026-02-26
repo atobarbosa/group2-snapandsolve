@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # Load API Key from .env file
 load_dotenv()
-API_KEY = "api key here"
+API_KEY = ""
 
 def test_ocr():
     print("\n--- 1. Testing EasyOCR (Local) ---")
@@ -53,4 +53,5 @@ def test_gemini(extracted_text):
 if __name__ == "__main__":
     text_result = test_ocr()
     if text_result is not None:
+
         test_gemini(text_result)
