@@ -1,28 +1,25 @@
 # Snap & Solve: The AI-Powered Visual Homework Tutor
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Running-green?logo=fastapi)
-![Gemini](https://img.shields.io/badge/AI-Gemini%202.5-orange?logo=google)
-![PyTorch](https://img.shields.io/badge/PyTorch-ResNet18-red?logo=pytorch)
+![Gemini](https://img.shields.io/badge/AI-Gemini%203.1_Flash_Lite-orange?logo=google)
+![PyTorch](https://img.shields.io/badge/PyTorch-CUDA_GPU-red?logo=pytorch)
+![Gradio](https://img.shields.io/badge/UI-Gradio_5-lightgrey?logo=gradio)
 
-**Snap & Solve** is a single-agent AI system designed to help students understand their homework rather than just providing answers. By combining local computer vision (to filter relevant content) with cloud-based Generative AI (to explain concepts), it provides a privacy-focused, cost-effective tutoring experience.
+**Snap & Solve** is a single-agent AI system designed to help students understand their homework rather than just providing answers. By combining local computer vision (to filter relevant content) with cloud-based Generative AI (to explain concepts), it provides a privacy-focused, cost-effective, and interactive tutoring experience.
 
 ---
 
 ## Contributors
 
-* **AJ Timothy O. Barbosa = atobarbosa** 
-* **Juan Miguel C. Ocampo = JuanMiguelOcampo** 
-* **John David M. Villota = jdvillota** 
-
----
+* **AJ Timothy O. Barbosa = atobarbosa** * **Juan Miguel C. Ocampo = JuanMiguelOcampo** * **John David M. Villota = jdvillota** ---
 
 ## Key Features
 
-* **Local Guardrails:** Uses a quantized **PyTorch ResNet18** model locally to verify if an image is "Academic Material" (Document/Paper) before sending it to the cloud.
-* **Optical Character Recognition:** Integrated **EasyOCR** engine to extract handwritten or printed text from images.
-* **One-Shot Tutoring:** Powered by **Google Gemini 2.5 Flash-Lite**, acting as a "Tutor Agent" that solves problems step-by-step.
-* **Lightweight Architecture:** Runs entirely on standard hardware (CPU-optimized) without requiring Admin privileges.
+* **Interactive AI Tutor:** Powered by **Google Gemini 3.1 Flash-Lite**, acting as a conversational agent that remembers chat history and guides students step-by-step instead of just giving the final answer.
+* **Modern Web UI:** Features a clean, browser-based chat interface built with **Gradio 5** for easy image uploading and interacting.
+* **Local Vision Guardrails:** Uses a **PyTorch ResNet18** model locally to verify if an image is "Academic Material" (papers, documents, or digital screens) before sending it to the cloud, saving API costs and preventing misuse.
+* **GPU-Accelerated OCR:** Integrated **EasyOCR** engine utilizing Nvidia CUDA to instantly extract complex handwritten or printed math text from images.
 
 ---
 
@@ -30,132 +27,123 @@
 
 | Component | Technology | Purpose |
 | :--- | :--- | :--- |
-| **Agent Controller** | Python 3.12 | The main logic orchestrating the tools. |
+| **User Interface** | Gradio 5 | Interactive web-based chat frontend. |
+| **Agent Controller** | Python 3.11 | The main logic orchestrating the pipeline. |
 | **Vision Model** | PyTorch (ResNet18) | Local image classification (The "Guardrail"). |
 | **Backend API** | FastAPI | Hosts the vision model for the agent to call. |
-| **OCR Engine** | EasyOCR | Extracts text from validated images. |
-| **Reasoning** | Google Gen AI SDK | Generates educational explanations. |
-| **Package Manager** | `uv` | Fast Python package management (No Admin needed). |
+| **OCR Engine** | EasyOCR (CUDA) | GPU-accelerated text extraction. |
+| **Reasoning** | Google Gen AI SDK | Gemini 3.1 for educational explanations. |
+| **Package Manager** | `uv` | Fast Python package management. |
 
 ---
 
 ## Project Structure
 
-```text
+``text
 snap-and-solve/
-├── server.py                # FastAPI Server (Hosts the PyTorch Model)
-├── client.py                # CLI Entry point for the User
-├── agent_controller.py      # Main Agent Logic (Connects OCR + Server + Gemini)
-├── resnet18_quantized.pt    # Pre-trained local model file
-├── requirements.txt         # Dependency list
-├── .env                     # API Keys (Not committed to Git)
-└── README.md                # Project Documentation
+├── server.py              # FastAPI Server (Hosts the PyTorch Guardrail)
+├── ui.py                  # Gradio Web Interface (Entry Point)
+├── agent_controller.py    # Main Agent Logic (Connects UI + Server + Tools)
+├── ocr_tool.py            # EasyOCR wrapper optimized for math extraction
+├── gemini_tool.py         # Google GenAI wrapper with Chat Session memory
+├── client.py              # Legacy CLI Entry point (Backup)
+├── requirements.txt       # Dependency list
+├── .env                   # API Keys (Not committed to Git)
+└── README.md              # Project Documentation
 
-```
+Installation & Setup
+Prerequisites
 
----
+    Python 3.11 (Required for PyTorch CUDA compatibility).
 
-## Installation & Setup
+    uv (Recommended for lightning-fast installation).
 
-### Prerequisites
+    A Google Cloud API Key (for Gemini).
 
-* Python 3.10 or higher.
-* [uv](https://github.com/astral-sh/uv) (Recommended for restricted environments) or `pip`.
-* A Google Cloud API Key (for Gemini).
+    (Optional but recommended) An Nvidia GPU for accelerated OCR.
 
-### 1. Clone the Repository
+1. Clone the Repository
+Bash
 
-```bash
 git clone [https://github.com/YourUsername/snap-and-solve.git](https://github.com/YourUsername/snap-and-solve.git)
 cd snap-and-solve
 
-```
+2. Install Dependencies
 
-### 2. Install Dependencies
+We use uv to build the environment and install the GPU-enabled PyTorch:
+Bash
 
-We use `uv` for fast, isolated installation:
+# 1. Create a Python 3.11 virtual environment
+uv venv --python 3.11 .venv
 
-```bash
-uv venv
-# On Windows:
+# 2. Activate it (Windows)
 .venv\Scripts\activate
-# Install requirements
-uv pip install -r requirements.txt
 
-```
+# 3. Install PyTorch with CUDA 12.1 support
+uv pip install torch torchvision --index-url [https://download.pytorch.org/whl/cu121](https://download.pytorch.org/whl/cu121)
 
-### 3. Configure Environment
+# 4. Install remaining dependencies
+uv pip install fastapi uvicorn python-multipart easyocr google-genai python-dotenv requests gradio
 
-Create a `.env` file in the root directory and add your Google API key:
+3. Configure Environment
 
-```ini
+Create a .env file in the root directory and add your Google API key:
+Ini, TOML
+
 GOOGLE_API_KEY=your_actual_api_key_here
 
-```
+Usage Guide
 
----
+This system uses a Client-Server architecture. You need two terminal windows running simultaneously.
+Terminal 1: Start the Vision Server
 
-## Usage Guide
+This runs the local PyTorch model that filters out non-academic images.
+Bash
 
-This system uses a **Client-Server** architecture. You need two terminal windows.
-
-### Terminal 1: Start the Vision Server
-
-This runs the local PyTorch model that filters images.
-
-```bash
 python server.py
-# Output: Uvicorn running on [http://127.0.0.1:8000](http://127.0.0.1:8000)
+# Wait for Output: Uvicorn running on [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-```
+Terminal 2: Launch the Web UI
 
-### Terminal 2: Run the Client Agent
+This initializes the Agent and opens the frontend.
+Bash
 
-Upload an image to get a solution.
+python ui.py
+# Output: Running on local URL:  [http://127.0.0.1:7860](http://127.0.0.1:7860)
 
-```bash
-# Syntax: python client.py <path_to_image>
+Ctrl+Click the local URL to open the app in your browser!
+Demo Scenario
 
-python client.py homework_photo.png
+Input: A user uploads a screenshot of a math problem: 8 ÷ 2 (2 + 2) = ?
 
-```
+Process Flow:
 
----
+    UI passes the image to the AgentController.
 
-## Demo Scenario
+    Agent sends photo to local FastAPI server.
 
-**Input:** A photo of a math problem ().
+    Server confirms: "Class: Digital Screen (Valid Academic Document)".
 
-**Process Flow:**
+    Agent runs GPU EasyOCR: "Detected text: 8 ÷ 2 (2 + 2) = ?".
 
-1. **Agent** sends photo to `localhost:8000`.
-2. **Server** confirms: *"Class: Document (98% Conf)"*.
-3. **Agent** runs EasyOCR: *"Detected text: 2x + 5 = 15"*.
-4. **Agent** prompts Gemini: *"Explain this math problem."*
-5. **Gemini** returns the solution.
+    Agent initializes a chat session with Gemini 3.1 Flash-Lite.
 
-**Output:**
+Output (In the Web UI):
+Plaintext
 
-```text
-> Solution found!
+🤖 Tutor: Hello there! I see you uploaded an order of operations problem. 
+Let's break this down step-by-step!
 
-Step 1: Subtract 5 from both sides.
-2x = 10
+1. Identify operations within parentheses.
+Why? The order of operations (PEMDAS/BODMAS) tells us to group those numbers first.
 
-Step 2: Divide by 2.
-x = 5
+Can you tell me what you get when you solve the part inside the parentheses (2 + 2)?
 
-Concept: This is a linear equation. The goal is to isolate the variable x.
+🧑 You: 4
 
-```
+🤖 Tutor: Excellent! Now the equation looks like this: 8 ÷ 2 * 4. 
+What do you think the next step is?
 
+License
 
----
-
-## License
-
-This project is for educational purposes under the [MIT License](https://www.google.com/search?q=LICENSE).
-
-```
-
-```
+This project is for educational purposes under the MIT License.
