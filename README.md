@@ -12,7 +12,11 @@
 
 ## Contributors
 
-* **AJ Timothy O. Barbosa = atobarbosa** * **Juan Miguel C. Ocampo = JuanMiguelOcampo** * **John David M. Villota = jdvillota** ---
+* **AJ Timothy O. Barbosa** = atobarbosa
+* **Juan Miguel C. Ocampo** = JuanMiguelOcampo
+* **John David M. Villota** = jdvillota
+
+---
 
 ## Key Features
 
@@ -39,7 +43,7 @@
 
 ## Project Structure
 
-``text
+```text
 snap-and-solve/
 ├── server.py              # FastAPI Server (Hosts the PyTorch Guardrail)
 ├── ui.py                  # Gradio Web Interface (Entry Point)
@@ -51,28 +55,32 @@ snap-and-solve/
 ├── .env                   # API Keys (Not committed to Git)
 └── README.md              # Project Documentation
 
-Installation & Setup
-Prerequisites
+```
 
-    Python 3.11 (Required for PyTorch CUDA compatibility).
+---
 
-    uv (Recommended for lightning-fast installation).
+## Installation & Setup
 
-    A Google Cloud API Key (for Gemini).
+### Prerequisites
 
-    (Optional but recommended) An Nvidia GPU for accelerated OCR.
+* **Python 3.11** (Required for PyTorch CUDA compatibility).
+* [uv](https://github.com/astral-sh/uv) (Recommended for lightning-fast installation).
+* A Google Cloud API Key (for Gemini).
+* *(Optional but recommended)* An Nvidia GPU for accelerated OCR.
 
-1. Clone the Repository
-Bash
+### 1. Clone the Repository
 
+```bash
 git clone [https://github.com/YourUsername/snap-and-solve.git](https://github.com/YourUsername/snap-and-solve.git)
 cd snap-and-solve
 
-2. Install Dependencies
+```
 
-We use uv to build the environment and install the GPU-enabled PyTorch:
-Bash
+### 2. Install Dependencies
 
+We use `uv` to build the environment and install the GPU-enabled PyTorch:
+
+```bash
 # 1. Create a Python 3.11 virtual environment
 uv venv --python 3.11 .venv
 
@@ -85,52 +93,62 @@ uv pip install torch torchvision --index-url [https://download.pytorch.org/whl/c
 # 4. Install remaining dependencies
 uv pip install fastapi uvicorn python-multipart easyocr google-genai python-dotenv requests gradio
 
-3. Configure Environment
+```
 
-Create a .env file in the root directory and add your Google API key:
-Ini, TOML
+### 3. Configure Environment
 
+Create a `.env` file in the root directory and add your Google API key:
+
+```ini
 GOOGLE_API_KEY=your_actual_api_key_here
 
-Usage Guide
+```
 
-This system uses a Client-Server architecture. You need two terminal windows running simultaneously.
-Terminal 1: Start the Vision Server
+---
+
+## Usage Guide
+
+This system uses a **Client-Server** architecture. You need two terminal windows running simultaneously.
+
+### Terminal 1: Start the Vision Server
 
 This runs the local PyTorch model that filters out non-academic images.
-Bash
 
+```bash
 python server.py
 # Wait for Output: Uvicorn running on [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-Terminal 2: Launch the Web UI
+```
+
+### Terminal 2: Launch the Web UI
 
 This initializes the Agent and opens the frontend.
-Bash
 
+```bash
 python ui.py
 # Output: Running on local URL:  [http://127.0.0.1:7860](http://127.0.0.1:7860)
 
-Ctrl+Click the local URL to open the app in your browser!
-Demo Scenario
+```
 
-Input: A user uploads a screenshot of a math problem: 8 ÷ 2 (2 + 2) = ?
+*Ctrl+Click the local URL to open the app in your browser!*
 
-Process Flow:
+---
 
-    UI passes the image to the AgentController.
+## Demo Scenario
 
-    Agent sends photo to local FastAPI server.
+**Input:** A user uploads a screenshot of a math problem: `8 ÷ 2 (2 + 2) = ?`
 
-    Server confirms: "Class: Digital Screen (Valid Academic Document)".
+**Process Flow:**
 
-    Agent runs GPU EasyOCR: "Detected text: 8 ÷ 2 (2 + 2) = ?".
+1. **UI** passes the image to the `AgentController`.
+2. **Agent** sends photo to local FastAPI server.
+3. **Server** confirms: *"Class: Digital Screen (Valid Academic Document)"*.
+4. **Agent** runs GPU EasyOCR: *"Detected text: 8 ÷ 2 (2 + 2) = ?"*.
+5. **Agent** initializes a chat session with Gemini 3.1 Flash-Lite.
 
-    Agent initializes a chat session with Gemini 3.1 Flash-Lite.
+**Output (In the Web UI):**
 
-Output (In the Web UI):
-Plaintext
-
+```text
 🤖 Tutor: Hello there! I see you uploaded an order of operations problem. 
 Let's break this down step-by-step!
 
@@ -144,6 +162,11 @@ Can you tell me what you get when you solve the part inside the parentheses (2 +
 🤖 Tutor: Excellent! Now the equation looks like this: 8 ÷ 2 * 4. 
 What do you think the next step is?
 
-License
+```
 
-This project is for educational purposes under the MIT License.
+---
+
+## License
+
+This project is for educational purposes under the [MIT License](https://www.google.com/search?q=LICENSE).
+
